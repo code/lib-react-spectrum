@@ -97,6 +97,9 @@ export interface AriaMenuItemProps extends DOMProps, PressEvents, HoverEvents, K
   /** Identifies the menu item's popup element whose contents or presence is controlled by the menu item. */
   'aria-controls'?: string,
 
+  /** Identifies the element(s) that describe the menu item. */
+  'aria-describedby'?: string,
+
   /** Override of the selection manager. By default, `state.selectionManager` is used. */
   selectionManager?: SelectionManager
 }
@@ -177,7 +180,7 @@ export function useMenuItem<T>(props: AriaMenuItemProps, state: TreeState<T>, re
     role,
     'aria-label': props['aria-label'],
     'aria-labelledby': labelId,
-    'aria-describedby': [descriptionId, keyboardId].filter(Boolean).join(' ') || undefined,
+    'aria-describedby': [props['aria-describedby'], descriptionId, keyboardId].filter(Boolean).join(' ') || undefined,
     'aria-controls': props['aria-controls'],
     'aria-haspopup': hasPopup,
     'aria-expanded': props['aria-expanded']
