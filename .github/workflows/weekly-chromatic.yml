@@ -2,8 +2,8 @@ name: Weekly Chromatic
 
 on:
   schedule:
-    - cron: '0 17 * * 1'  # Monday 9am PST / 10am PDT (GH Actions cron is UTC)
-  workflow_dispatch:        # manual trigger for testing
+    - cron: '0 17 * * 1' # Monday 9am PST / 10am PDT (GH Actions cron is UTC)
+  workflow_dispatch: # manual trigger for testing
 
 jobs:
   chromatic:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # chromatic needs full history for baseline comparison
+          fetch-depth: 0 # chromatic needs full history for baseline comparison
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # chromatic needs full history for baseline comparison
+          fetch-depth: 0 # chromatic needs full history for baseline comparison
       - uses: actions/setup-node@v4
         with:
           node-version: '24'

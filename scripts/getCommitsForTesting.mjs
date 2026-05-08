@@ -7,7 +7,7 @@ import {unified} from 'unified';
 
 /**
  * Instructions:
- * 
+ *
  * 1. Run the following script: node scripts/getCommitsForTesting.mjs 2026-10-07 2026-10-18
  * 2. Go to output.csv, copy it to Google sheets, highlight the rows, go to "Data" in the toolbar -> split text to columns -> separator: comma
  */
@@ -99,7 +99,12 @@ export async function generateData(startDate, endDate) {
     row.push(info.data.html_url);
     row.push(removePRNumber(title));
 
-    if (!labels.has('S2') && !labels.has('RAC') && !labels.has('v3') && !labels.has('test off PR')) {
+    if (
+      !labels.has('S2') &&
+      !labels.has('RAC') &&
+      !labels.has('v3') &&
+      !labels.has('test off PR')
+    ) {
       otherPRs.push(row);
     } else if (labels.has('test off PR')) {
       offPRs.push(row);
@@ -122,7 +127,13 @@ export async function generateData(startDate, endDate) {
     racPRs,
     otherPRs,
     offPRs,
-    counts: {v3: v3PRs.length, s2: s2PRs.length, rac: racPRs.length, offPRs: offPRs.length, other: otherPRs.length}
+    counts: {
+      v3: v3PRs.length,
+      s2: s2PRs.length,
+      rac: racPRs.length,
+      offPRs: offPRs.length,
+      other: otherPRs.length
+    }
   };
 }
 
@@ -130,9 +141,11 @@ export async function generateCSV(startDate, endDate) {
   let {v3PRs, s2PRs, racPRs, otherPRs, offPRs, counts} = await generateData(startDate, endDate);
 
   function formatRows(rows) {
-    return rows.map(([component, instructions, url, title]) =>
-      [escapeCSV(component), escapeCSV(instructions), url, escapeCSV(title)].join()
-    ).join('\n');
+    return rows
+      .map(([component, instructions, url, title]) =>
+        [escapeCSV(component), escapeCSV(instructions), url, escapeCSV(title)].join()
+      )
+      .join('\n');
   }
 
   let csv = `V3 \n${formatRows(v3PRs)}\n\nRainbow \n${formatRows(s2PRs)}\n\nRAC \n${formatRows(racPRs)}\n\nOff PR \n${formatRows(offPRs)}\n\nOther \n${formatRows(otherPRs)}\n`;
@@ -211,12 +224,15 @@ function extractTestInstructions(contents) {
     if (collecting) {
       collected.push(node);
     }
-
   }
 
-  return collected.map(node => toString(node)).join(' ').replace(/\r\n/g, '\n').replace(/\s+/g, ' ').trim();
+  return collected
+    .map(node => toString(node))
+    .join(' ')
+    .replace(/\r\n/g, '\n')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
-
 
 function escapeCSV(value) {
   if (!value) {

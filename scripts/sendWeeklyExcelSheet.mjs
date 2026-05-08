@@ -37,7 +37,10 @@ async function uploadToSlack(buffer, filename, message) {
   // Step 1: get upload URL
   let urlRes = await fetch('https://slack.com/api/files.getUploadURLExternal', {
     method: 'POST',
-    headers: {Authorization: `Bearer ${SLACK_TESTING_BOT_TOKEN}`, 'Content-Type': 'application/x-www-form-urlencoded'},
+    headers: {
+      Authorization: `Bearer ${SLACK_TESTING_BOT_TOKEN}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
     body: new URLSearchParams({filename, length: buffer.byteLength}),
     signal: AbortSignal.timeout(30000)
   });
@@ -64,7 +67,10 @@ async function uploadToSlack(buffer, filename, message) {
   // Step 3: complete upload and share to channel
   let completeRes = await fetch('https://slack.com/api/files.completeUploadExternal', {
     method: 'POST',
-    headers: {Authorization: `Bearer ${SLACK_TESTING_BOT_TOKEN}`, 'Content-Type': 'application/json'},
+    headers: {
+      Authorization: `Bearer ${SLACK_TESTING_BOT_TOKEN}`,
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({
       files: [{id: urlData.file_id}],
       channel_id: SLACK_CHANNEL_ID,
@@ -99,7 +105,9 @@ async function main() {
   console.log(`Generating testing sheet for ${startDate} – ${endDate}...`);
 
   let {v3PRs, s2PRs, racPRs, otherPRs, offPRs, counts} = await generateData(startDate, endDate);
-  console.log(`Found: V3=${counts.v3}, S2=${counts.s2}, RAC=${counts.rac}, Other=${counts.other}, Off PRs=${counts.offPRs}`);
+  console.log(
+    `Found: V3=${counts.v3}, S2=${counts.s2}, RAC=${counts.rac}, Other=${counts.other}, Off PRs=${counts.offPRs}`
+  );
 
   let buffer = await createTestingSheet({v3PRs, s2PRs, racPRs, otherPRs, offPRs});
 

@@ -2,8 +2,8 @@ name: Weekly API Diff
 
 on:
   schedule:
-    - cron: '0 17 * * 1'  # Monday 9am PST / 10am PDT (GH Actions cron is UTC)
-  workflow_dispatch:        # manual trigger for testing
+    - cron: '0 17 * * 1' # Monday 9am PST / 10am PDT (GH Actions cron is UTC)
+  workflow_dispatch: # manual trigger for testing
 
 jobs:
   weekly-api-diff:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # required for build:api-published to find the last Publish commit
+          fetch-depth: 0 # required for build:api-published to find the last Publish commit
 
       - uses: actions/setup-node@v4
         with:

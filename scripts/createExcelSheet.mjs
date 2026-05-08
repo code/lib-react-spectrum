@@ -9,7 +9,15 @@ function sanitizeExcelString(value) {
   return value;
 }
 
-const BUGS_NOTES_HEADER = ['Component', 'Priority', 'Comments', 'Status', 'Lib', 'Details', 'Platform(s)'];
+const BUGS_NOTES_HEADER = [
+  'Component',
+  'Priority',
+  'Comments',
+  'Status',
+  'Lib',
+  'Details',
+  'Platform(s)'
+];
 const PRIORITY_OPTIONS = [
   'Fix now',
   'Needs ticket',
@@ -52,12 +60,7 @@ function buildBugsNotesSheet(workbook) {
 function buildReleaseNotesSheet(workbook, {v3PRs, s2PRs, racPRs, otherPRs, offPRs}) {
   let sheet = workbook.addWorksheet('Release Notes');
 
-  sheet.columns = [
-    {width: 25},
-    {width: 70},
-    {width: 50},
-    {width: 50}
-  ];
+  sheet.columns = [{width: 25}, {width: 70}, {width: 50}, {width: 50}];
   sheet.getColumn(2).alignment = {wrapText: true, vertical: 'top'};
   sheet.getColumn(4).alignment = {wrapText: true, vertical: 'top'};
 
@@ -78,7 +81,12 @@ function buildReleaseNotesSheet(workbook, {v3PRs, s2PRs, racPRs, otherPRs, offPR
     headingRow.getCell(1).font = {bold: true};
 
     for (let row of rows) {
-      let sanitized = [sanitizeExcelString(row[0]), sanitizeExcelString(row[1]), null, sanitizeExcelString(row[3])];
+      let sanitized = [
+        sanitizeExcelString(row[0]),
+        sanitizeExcelString(row[1]),
+        null,
+        sanitizeExcelString(row[3])
+      ];
       let added = sheet.addRow(sanitized);
       let url = row[2];
       if (url) {
@@ -197,16 +205,40 @@ function buildPassFailSheet(workbook, {v3PRs, s2PRs, racPRs, otherPRs, offPRs}) 
     }
   }
 
-  let cfStyle = (argb) => ({
+  let cfStyle = argb => ({
     fill: {type: 'pattern', pattern: 'solid', fgColor: {indexed: 64}, bgColor: {argb}}
   });
   sheet.addConditionalFormatting({
     ref: 'B11:I500',
     rules: [
-      {priority: 1, type: 'containsText', operator: 'containsText', text: 'Passish', style: cfStyle('FFFFE599')},
-      {priority: 2, type: 'containsText', operator: 'containsText', text: 'Failish', style: cfStyle('FFFFE599')},
-      {priority: 3, type: 'containsText', operator: 'containsText', text: 'Pass',    style: cfStyle('FFB7E1CD')},
-      {priority: 4, type: 'containsText', operator: 'containsText', text: 'Fail',    style: cfStyle('FFEA9999')}
+      {
+        priority: 1,
+        type: 'containsText',
+        operator: 'containsText',
+        text: 'Passish',
+        style: cfStyle('FFFFE599')
+      },
+      {
+        priority: 2,
+        type: 'containsText',
+        operator: 'containsText',
+        text: 'Failish',
+        style: cfStyle('FFFFE599')
+      },
+      {
+        priority: 3,
+        type: 'containsText',
+        operator: 'containsText',
+        text: 'Pass',
+        style: cfStyle('FFB7E1CD')
+      },
+      {
+        priority: 4,
+        type: 'containsText',
+        operator: 'containsText',
+        text: 'Fail',
+        style: cfStyle('FFEA9999')
+      }
     ]
   });
 
@@ -216,10 +248,7 @@ function buildPassFailSheet(workbook, {v3PRs, s2PRs, racPRs, otherPRs, offPRs}) 
 function buildScreenshotsSheet(workbook) {
   let sheet = workbook.addWorksheet('Screenshots');
 
-  sheet.columns = [
-    {width: 25},
-    {width: 60}
-  ];
+  sheet.columns = [{width: 25}, {width: 60}];
   sheet.properties.defaultRowHeight = 50;
 
   let header = sheet.addRow(['Component', 'Screenshot']);

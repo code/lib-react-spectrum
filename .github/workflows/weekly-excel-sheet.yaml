@@ -2,7 +2,7 @@ name: Weekly Excel Sheet
 
 on:
   schedule:
-    - cron: '0 14 * * 1'  # 7 AM PDT Mondays
+    - cron: '0 14 * * 1' # 7 AM PDT Mondays
   workflow_dispatch:
 
 jobs:
